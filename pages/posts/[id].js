@@ -26,8 +26,8 @@ export const getStaticPaths = async () => {
   const key = {
     headers: {'X-API-KEY': process.env.API_KEY},
   }
-
-  const res = await fetch(process.env.ENDPOINT + '/blogs', key)
+  const fetchUrl = new URL('/blogs', process.env.ENDPOINT)
+  const res = await fetch(fetchUrl, key)
   const repos = await res.json()
 
   const paths = repos.contents.map(repo => `/posts/${repo.id}`)
@@ -40,8 +40,8 @@ export const getStaticProps = async context => {
   const key = {
     headers: {'X-API-KEY': process.env.API_KEY},
   }
-  const fetchUrl = new URL('/blogs/', process.env.ENDPOINT)
-  const res = await fetch(fetchUrl + id, key)
+  const fetchUrl = new URL('/blogs/' + id, process.env.ENDPOINT)
+  const res = await fetch(fetchUrl, key)
   const blog = await res.json()
 
   return {

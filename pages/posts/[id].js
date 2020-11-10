@@ -40,8 +40,8 @@ export const getStaticProps = async context => {
   const key = {
     headers: {'X-API-KEY': process.env.API_KEY},
   }
-
-  const res = await fetch(process.env.ENDPOINT + '/blogs/' + id, key)
+  const fetchUrl = new URL('/blogs/', process.env.ENDPOINT)
+  const res = await fetch(fetchUrl + id, key)
   const blog = await res.json()
 
   return {

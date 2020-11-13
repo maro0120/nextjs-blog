@@ -29,6 +29,7 @@ export const getStaticPaths = async () => {
   const fetchUrl = process.env.ENDPOINT + '/blogs'
   const res = await fetch(fetchUrl, key)
   const repos = await res.json()
+  if (repos.length === 0) return null;
 
   const paths = repos.contents.map(repo => `/posts/${repo.id}`)
   return {paths, fallback: false}
@@ -42,6 +43,7 @@ export const getStaticProps = async context => {
   }
   const fetchUrl = process.env.ENDPOINT + '/blogs/' + id
   const res = await fetch(fetchUrl, key)
+  if (res.length === 0) return null;
   const blog = await res.json()
 
   return {
